@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col">
+        <div id="result" class="my-5" onchange="loading()">
+            <h1>r/{{ sub }} feels {{ sentiment_adj }} about '{{ term }}'</h1>
+            <p id="runstats">{{ count }} comments analyzed in {{ time }} seconds</p>
+        </div>
+
+        <h2 class="mt-3 text-center">Most Contributing Comments</h2>
+        <div id="comments" class = "card">
+            <div id="comment-list">
+                <div class="container card-deck"> 
+                    {% for i in range(0, most_contrib|length, 4) %}
+                    <div class="row">
+                        {% for comment in most_contrib[i:i+4] %}
+                        <div class="card mx-1 my-2 col-sm-3">
+                            {% if comment.senti_score > 0.3 %}
+                            <img class="mt-1 senti-img" src="{{ url_for('static', filename='positive.jpeg') }}" width="64" height="32">
+                            {% elif comment.senti_score < 0.3 %}
+                            <img class="mt-1 senti-img" src="{{ url_for('static', filename='negative.jpeg') }}" width="64" height="32">
+                            {% else %}
+                            <img class="mt-1 senti-img" src="{{ url_for('static', filename='neutral.jpeg') }}" width="64" height="32">
+                            {% endif %}
+                            <div class="card-body">
+                                <div class="comment-body">
+                                    <a href="https://reddit.com{{ comment.permalink }}" target="_blank">
+                                        {{ comment.body }}
+                                        <br>
+                                        <div class="comment-sign">- u/{{ comment.author }}</div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>    
+                    {% endfor %}
+                </div>       
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h2 class="mt-5 text-center">Subreddit Sentiment over Time</h2>
+        <div id="sentiment-graph" class="card">
+            <div id="loading-graph" class="card-body text-center">
+                <p>Generating Graph...</p>
+                <div class="spinner-border" role="status"></div>
+            </div>
+            <canvas id="overTimeGraph"></canvas>
+        </div>
+    </div>
+</div>

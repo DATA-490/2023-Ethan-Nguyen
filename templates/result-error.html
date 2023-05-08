@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col">
+        <div id="result" class="mt-5" onchange="loading()">
+            <p class>{{ error_msg }}</p>
+            {% if suggested %}
+            <p id="suggestion">Did you mean 
+                {% for suggestion in suggested %}
+                {% if not loop.last %}<span class="suggested-subreddit" onclick="subCorrection(this)">r/{{ suggestion }}</span>   {% else %}or <span class="suggested-subreddit">r/{{ suggestion }}</span> {% endif %}{% endfor %}?</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
